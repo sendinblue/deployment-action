@@ -18,6 +18,8 @@ async function createDeployment(repository, payload, token) {
     console.log('Cannot parse the JSON response.');
   }
 
+  console.log("Deployment: ", json);
+
   if (!data.ok) {
     throw new Error((json && json.message) || 'Cannot parse the JSON response.');
   }
