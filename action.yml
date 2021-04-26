@@ -27,7 +27,7 @@ inputs:
 
 outputs:
   deployment-id:
-    description: Deployment ID
+    description: ID of the new deployment.
 
 runs:
   using: node12

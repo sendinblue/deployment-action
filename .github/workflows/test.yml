@@ -9,6 +9,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Act
+        id: deploy
         uses: './'
         with:
           token: ${{ github.token }}
@@ -16,4 +17,14 @@ jobs:
           ref: main
           environment: dev
           required-contexts: '[]'
+
+      - name: Assert
+        env:
+          DEPLOYMENT_ID: ${{ steps.deploy.outputs.deployment-id }}
+        run: |
+          echo "Deployment ID: $DEPLOYMENT_ID"
+          if [[ -z "$DEPLOYMENT_ID" ]]; then
+            echo "Deployment ID must be present"
+            exit 1
+          fi
 
