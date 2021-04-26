@@ -26,22 +26,9 @@ inputs:
     required: false
 
 outputs:
-  image:
+  deployment-id:
     description: Deployment ID
-    value: ${{ steps.trigger-deployment.outputs.deployment-id }}
 
 runs:
-  using: composite
-  steps:
-    - name: Trigger deployment
-      id: trigger-deployment
-      run: |
-        RESULT=`curl \
-          --fail \
-          --header "Authorization: token ${{ inputs.token }}" \
-          --header "Accept: application/vnd.github.v3+json" \
-          --request POST \
-          https://api.github.com/repos/${{ inputs.repository }}/deployments \
-          --data '{"ref":"${{ inputs.ref }}", "environment": "${{ inputs.environment }}", "task": "${{ inputs.task }}", "auto_merge": false, "required_contexts": ${{ inputs.required-contexts}} }'`
-        echo "::set-output name=deployment-id::$(echo $RESULT | jq -r '.id')"
-      shell: bash
+  using: node12
+  main: index.js

@@ -1,0 +1,26 @@
+{
+  "name": "deployment-action",
+  "version": "1.0.0",
+  "description": "Creates a GitHub [deployment](https://docs.github.com/en/rest/reference/repos#create-a-deployment) event for a repository.",
+  "main": "index.js",
+  "dependencies": {
+    "@actions/core": "^1.2.7",
+    "node-fetch": "^2.6.1"
+  },
+  "devDependencies": {
+    "jest": "^26.6.3"
+  },
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sendinblue/deployment-action.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/sendinblue/deployment-action/issues"
+  },
+  "homepage": "https://github.com/sendinblue/deployment-action#readme"
+}
