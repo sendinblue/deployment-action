@@ -1,0 +1,28 @@
+name: Test action
+on:
+  push:
+jobs:
+  should-trigger-deployment:
+    name: Should trigger deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: dimw/mockbin-action@v1
+        with:
+          commands: curl
+
+      - name: Act
+        uses: './'
+        with:
+          token: foo
+          repository: sendinblue/example
+          ref: bar
+          environment: dev
+          task: deploy:foo
+          required-contexts: '[]'
+
+      - uses: dimw/mockbin-action@v1
+        with:
+          commands: curl
+          assert-args: '["--fail", "--header", "Authorization: token foo", "--header", "Accept: application\\/vnd\\.github\\.v3\\+json", "--request", "POST", "https://api.github.com/repos/sendinblue/example/deployments", "--data", "{\"ref\":\"bar\", \"environment\": \"dev\", \"task\": \"deploy:foo\", \"auto_merge\": false, \"required_contexts\": [] }"]'

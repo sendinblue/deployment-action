@@ -1,0 +1,47 @@
+name: Deployment Action
+description: Trigger deployment event for a GitHub repository
+
+# https://docs.github.com/en/rest/reference/repos#create-a-deployment
+inputs:
+  token:
+    description: GitHub token to access the Deployments API (usually github.token).
+    required: true
+  repository:
+    description: Full repository name (e.g. owner/repo).
+    required: true
+  ref:
+    description: Branch/tag (version) for which the deployment will be triggered.
+    required: true
+  environment:
+    description: Name for the target deployment environment (e.g., production, staging, qa).
+    default: production
+    required: false
+  task:
+    description: Specifies a task to execute (e.g., deploy or deploy:migrations).
+    default: deploy
+    required: false
+  required-contexts:
+    description: The status contexts to verify against commit status checks.
+    default: 'null'
+    required: false
+
+outputs:
+  image:
+    description: Deployment ID
+    value: ${{ steps.trigger-deployment.outputs.deployment-id }}
+
+runs:
+  using: composite
+  steps:
+    - name: Trigger deployment
+      id: trigger-deployment
+      run: |
+        RESULT=`curl \
+          --fail \
+          --header "Authorization: token ${{ inputs.token }}" \
+          --header "Accept: application/vnd.github.v3+json" \
+          --request POST \
+          https://api.github.com/repos/${{ inputs.repository }}/deployments \
+          --data '{"ref":"${{ inputs.ref }}", "environment": "${{ inputs.environment }}", "task": "${{ inputs.task }}", "auto_merge": false, "required_contexts": ${{ inputs.required-contexts}} }'`
+        echo "::set-output name=deployment-id::$(echo $RESULT | jq -r '.id')"
+      shell: bash
