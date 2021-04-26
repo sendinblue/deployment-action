@@ -19,12 +19,13 @@ try {
     required_contexts: requiredContexts,
   };
 
-  const { id } = createDeployment(repository, payload, token)
+  createDeployment(repository, payload, token)
+    .then(({ id }) => {
+      core.setOutput("deployment-id", id);
+    })
     .catch((e) => {
       core.setFailed(e.message);
     });
-
-  core.setOutput("deployment-id", id);
 } catch (error) {
   core.setFailed(error.message);
 }
