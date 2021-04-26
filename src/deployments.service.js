@@ -15,6 +15,7 @@ async function createDeployment(repository, payload, token) {
   try {
     json = await data.json();
   } catch (e) {
+    console.log('Cannot parse the JSON response.');
   }
 
   if (!data.ok) {

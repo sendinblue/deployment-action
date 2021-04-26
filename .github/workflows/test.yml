@@ -1,0 +1,19 @@
+name: Test action
+on:
+  push:
+jobs:
+  should-trigger-deployment:
+    name: Should trigger deployment
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Act
+        uses: './'
+        with:
+          token: ${{ github.token }}
+          repository: sendinblue/example
+          ref: main
+          environment: dev
+          required-contexts: '[]'
+
