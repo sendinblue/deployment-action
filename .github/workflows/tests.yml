@@ -2,6 +2,10 @@ name: Test action
 on:
   push:
 jobs:
+  curl-version:
+    runs-on: ubuntu-latest
+    steps:
+      - run: curl --version
   should-trigger-deployment:
     name: Should trigger deployment
     runs-on: ubuntu-latest
