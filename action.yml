@@ -24,7 +24,10 @@ inputs:
     description: The status contexts to verify against commit status checks.
     default: 'null'
     required: false
-
+  payload:
+    description: Component (Kustomize overlays path)
+    requiured: false
+    
 outputs:
   image:
     description: Deployment ID
@@ -42,6 +45,6 @@ runs:
           --header "Accept: application/vnd.github.v3+json" \
           --request POST \
           https://api.github.com/repos/${{ inputs.repository }}/deployments \
-          --data '{"ref":"${{ inputs.ref }}", "environment": "${{ inputs.environment }}", "task": "${{ inputs.task }}", "auto_merge": false, "required_contexts": ${{ inputs.required-contexts}} }'`
+          --data '{"ref":"${{ inputs.ref }}", "environment": "${{ inputs.environment }}", "task": "${{ inputs.task }}", "auto_merge": false, "required_contexts": ${{ inputs.required-contexts}}, "payload": ${{ inputs.payload}} }'`
         echo "::set-output name=deployment-id::$(echo $RESULT | jq -r '.id')"
       shell: bash
