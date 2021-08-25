@@ -28,6 +28,10 @@ Deployment task. Default: `deploy`.
 
 The status contexts to verify against commit status checks. Default: `null`.
 
+### `payload`
+
+JSON payload with extra information about the deployment. 
+
 ## Outputs
 
 ### `deployment-id`
@@ -44,4 +48,5 @@ ID of the newly created deployment.
     repository: ${{ github.repository }}
     ref: ${{ github.ref }}
     environment: production
+    payload: {"component": "smtp"}
 ```

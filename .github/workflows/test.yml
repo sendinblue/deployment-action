@@ -17,7 +17,7 @@ jobs:
           ref: main
           environment: dev
           required-contexts: '[]'
-
+          payload: '{}'
       - name: Assert
         env:
           DEPLOYMENT_ID: ${{ steps.deploy.outputs.deployment-id }}

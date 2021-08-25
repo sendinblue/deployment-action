@@ -9,17 +9,18 @@ try {
   const environment = core.getInput('environment');
   const task = core.getInput('task');
   const requiredContexts = JSON.parse(core.getInput('required-contexts'));
+  const payload = JSON.parse(core.getInput('payload'));
 
-  const payload = {
+  const data = {
     ref,
     environment,
-    payload: undefined,
+    payload: payload,
     auto_merge: false,
     task,
     required_contexts: requiredContexts,
   };
 
-  createDeployment(repository, payload, token)
+  createDeployment(repository, data, token)
     .then(({ id }) => {
       core.setOutput("deployment-id", id);
     })
