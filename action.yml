@@ -24,6 +24,9 @@ inputs:
     description: The status contexts to verify against commit status checks.
     default: 'null'
     required: false
+  payload:
+    description: Component (Kustomize overlays folder name inside envrionment folder)
+    required: false
 
 outputs:
   deployment-id:
